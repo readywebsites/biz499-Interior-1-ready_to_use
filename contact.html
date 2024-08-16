@@ -14,6 +14,8 @@
   <meta name="theme-color" content="#ffffff">
   <link rel="stylesheet" href="css/bootstrap-grid.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
   <title>Larson Interior Studio | Contact</title>
 </head>
 
@@ -407,29 +409,29 @@
             <h2 class="feedback__heading heading" data-aos="fade">Let's grab a coffee and jump on
               <br>conversation <span class="color-yellow">chat with us.</span>
             </h2>
-            <form class="js-form-validate" action="php/mail.php" method="POST">
-              <div class="row">
+            <form id="contactForm">
+              <div class="row"><f
                 <div class="feedback__field-wrapper col-12 col-md-6 col-lg-4" data-aos="fade">
                   <label class="field" aria-label="Name">
-                    <input type="text" name="name" placeholder="Name">
+                  <input  id="name" type="text" name="name " placeholder="Your Name">
                   </label>
                   <div class="field-error" style="display: none"></div>
                 </div>
                 <div class="feedback__field-wrapper col-12 col-md-6 col-lg-4" data-aos="fade">
                   <label class="field" aria-label="Email">
-                    <input type="email" name="email" placeholder="Email*" required>
+                  <input  type="email" id="email"  name="email"  placeholder="Your Email">
                   </label>
                   <div class="field-error" style="display: none"></div>
                 </div>
                 <div class="feedback__field-wrapper col-12 col-lg-4" data-aos="fade">
                   <label class="field" aria-label="Subject">
-                    <input type="text" name="subject" placeholder="Subject">
+                  <input id="subject" type="text" name="subject" placeholder="Subject">
                   </label>
                   <div class="field-error" style="display: none"></div>
                 </div>
                 <div class="feedback__field-wrapper col-12" data-aos="fade">
                   <label class="field" aria-label="message">
-                    <textarea name="message" placeholder="Message*" required></textarea>
+                  <textarea name="message" id="message"  placeholder="Your Message"></textarea>
                   </label>
                   <div class="field-error" style="display: none"></div>
                 </div>
@@ -552,6 +554,7 @@
   </div>
   <!-- Optional JavaScript-->
   <script src="js/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="js/jquery.fancybox.min.js"></script>
   <script src="js/jquery.pagepiling.js"></script>
   <script src="js/aos.js"></script>
@@ -562,6 +565,58 @@
   <script src="js/animsition.min.js"></script>
   <!-- JavaScript-->
   <script src="js/main.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#contactForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var subject = $('#subject').val();
+        var message = $('#message').val();
+
+        $.ajax({
+          url: 'https://script.google.com/macros/s/AKfycbxAUy5y4_0TMcpsN6-qmiypGwSEHqnBAu3rJz8utUv7ugUdGxqTufrJaeoigKjbZP5fUw/exec', // Replace with your Google Apps Script URL
+          method: 'POST',
+          data: {
+            name: name,
+            email: email,
+            subject: subject,
+            message: message
+          },
+          success: function(response) {
+            toastr.success('Form submitted successfully!');
+            setTimeout(function() {
+              window.location.href = 'http://127.0.0.1:5500/contact.html';
+            }, 3000);
+          },
+          error: function() {
+            toastr.error('There was an error submitting the form. Please try again.');
+          }
+        });
+      });
+    });
+
+    toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-full-width",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+  </script>
 </body>
 
 </html>
